@@ -1,0 +1,25 @@
+{
+  "name": "firehose",
+  "version": "1.0.0",
+  "description": "A TypeScript based fhir server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rukshn/firehose.git"
+  },
+  "keywords": [
+    "fhir"
+  ],
+  "author": "Rukshan <arkruka@gmail.com>",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/rukshn/firehose/issues"
+  },
+  "homepage": "https://github.com/rukshn/firehose#readme",
+  "dependencies": {
+    "esbuild": "^0.14.5"
+  }
+}
