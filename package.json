@@ -4,7 +4,9 @@
   "description": "A TypeScript based fhir server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.js",
+    "serve": "node ./build/server.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +22,12 @@
   },
   "homepage": "https://github.com/rukshn/firehose#readme",
   "dependencies": {
-    "esbuild": "^0.14.5"
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "esbuild": "^0.14.5",
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.0"
   }
 }
