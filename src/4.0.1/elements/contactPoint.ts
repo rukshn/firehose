@@ -90,6 +90,7 @@ class ContactPoint {
         })
 
         Object.defineProperty(this, 'rank', {
+            enumerable: true,
             get: () => this._data.rank,
             set: (value: number) => {
                 if (!value) return
@@ -98,6 +99,7 @@ class ContactPoint {
         })
 
         Object.defineProperty(this, 'period', {
+            enumerable: true,
             get: () => this._data.period,
             set: (value: Period) => {
                 if (!value) return 
@@ -106,6 +108,7 @@ class ContactPoint {
         })
 
         Object.defineProperty(this, '_period', {
+            enumerable: true,
             get: () => this._data._period,
             set: (value: Period) => {
                 if (!value) return
@@ -114,6 +117,7 @@ class ContactPoint {
         })
 
         Object.defineProperty(this, 'extension', {
+            enumerable: true,
             get: () => this._data.extension,
             set: (value: Array<Extension>) => {
                 if (!value) return
