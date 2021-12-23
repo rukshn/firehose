@@ -1,15 +1,13 @@
 import { Address } from "../elements/address";
 import { Attachment } from "../elements/attachment";
-import { BackboneElement } from "../elements/backboneElement";
 import { CodeableConcept } from "../elements/codeableConcept";
 import { ContactPoint } from "../elements/contactPoint";
 import { Extension } from "../elements/extension";
 import { HumanName } from "../elements/humanName";
-import { Identifier } from "../elements/identifer";
+import { Identifier } from "../elements/identifier";
 import { PatientCommunication } from "../elements/patientCommunication";
 import { PatientContact } from "../elements/patientContact";
 import { PatientLink } from "../elements/patientLink";
-import { Period } from "../elements/period";
 import { Reference } from "../elements/reference";
 import { code } from "../types/code";
 import { date } from "../types/date";
