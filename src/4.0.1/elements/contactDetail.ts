@@ -68,3 +68,5 @@ class ContactDetail {
     };
   }
 }
+
+export { ContactDetail };
