@@ -3,11 +3,13 @@ import { CodeableConcept } from "../elements/codeableConcept";
 import { ContactPoint } from "../elements/contactPoint";
 import { Extension } from "../elements/extension";
 import { Identifier } from "../elements/identifier";
+import { Meta } from "../elements/meta";
 import { OrganizationContact } from "../elements/onganizationContact";
 import { Reference } from "../elements/reference";
 
 interface Organization {
   id: string;
+  meta: Meta;
   identifier: Array<Identifier>;
   active: boolean;
   type: Array<CodeableConcept>;
@@ -24,6 +26,7 @@ interface Organization {
 class Organization {
   private _data: {
     id: string;
+    meta: Meta;
     identifier: Array<Identifier>;
     active: boolean;
     type: Array<CodeableConcept>;
@@ -45,6 +48,15 @@ class Organization {
       set: (value: string) => {
         if (!value) return;
         this._data.id = value;
+      },
+    });
+
+    Object.defineProperty(this, "meta", {
+      enumerable: true,
+      get: () => this._data.meta,
+      set: (value: Meta) => {
+        if (!value) return;
+        this._data.meta = value;
       },
     });
 
@@ -154,6 +166,7 @@ class Organization {
   toJSON(): object {
     return {
       id: this.id,
+      meta: this.meta && this.meta.toJSON(),
       identifier: this.identifier && this.identifier.map((i) => i.toJSON()),
       active: this.active,
       type: this.type && this.type.map((t) => t.toJSON()),
