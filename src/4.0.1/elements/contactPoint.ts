@@ -1,6 +1,5 @@
 import { code } from "../types/code";
 import { positiveInt } from "../types/positiveInt";
-import { Element } from "./element";
 import { Extension } from "./extension";
 import { Period } from "./period";
 
@@ -9,7 +8,7 @@ interface ContactPoint {
   system: code;
   value: string;
   use: code;
-  rank: number;
+  rank: positiveInt;
   period: Period;
   extension: Array<Extension>;
 }
@@ -17,15 +16,11 @@ interface ContactPoint {
 class ContactPoint {
   private _data: {
     id: string;
-    system: string;
-    _system: code;
+    system: code;
     value: string;
-    use: string;
-    _use: code;
-    rank: number;
-    _rank: Element;
-    period: object;
-    _period: Element;
+    use: code;
+    rank: positiveInt;
+    period: Period;
     extension: Array<Extension>;
   };
 
@@ -46,16 +41,7 @@ class ContactPoint {
       get: () => this._data.system,
       set: (value: code) => {
         if (!value) return;
-        this._data.system = value.getValue();
-      },
-    });
-
-    Object.defineProperty(this, "_system", {
-      enumerable: true,
-      get: () => this._data._system,
-      set: (value: code) => {
-        if (!value) return;
-        this._data._system = value;
+        this._data.system = value;
       },
     });
 
@@ -73,16 +59,7 @@ class ContactPoint {
       get: () => this._data.use,
       set: (value: code) => {
         if (!value) return;
-        this._data.use = value.getValue();
-      },
-    });
-
-    Object.defineProperty(this, "_use", {
-      enumerable: true,
-      get: () => this._data._use,
-      set: (value: code) => {
-        if (!value) return;
-        this._data._use = value;
+        this._data.use = value;
       },
     });
 
@@ -91,16 +68,7 @@ class ContactPoint {
       get: () => this._data.rank,
       set: (value: positiveInt) => {
         if (!value) return;
-        this._data.rank = value.getValue();
-      },
-    });
-
-    Object.defineProperty(this, "_rank", {
-      enumerable: true,
-      get: () => this._data._rank,
-      set: (value: positiveInt) => {
-        if (!value) return;
-        this._data._rank = new Element(value);
+        this._data.rank = value;
       },
     });
 
@@ -109,7 +77,7 @@ class ContactPoint {
       get: () => this._data.period,
       set: (value: Period) => {
         if (!value) return;
-        this._data.period = value.toJSON();
+        this._data.period = value;
       },
     });
 
@@ -132,15 +100,11 @@ class ContactPoint {
   toJSON(): object {
     return {
       id: this.id,
-      system: this.system,
-      _system: this._data._system,
+      system: this.system && this.system.getValue(),
       value: this.value,
-      use: this.use,
-      _use: this._data._use,
-      rank: this.rank,
-      _rank: this._data._rank && this._data._rank.toJSON(),
-      period: this.period,
-      _period: this._data._period,
+      use: this.use && this.use.getValue(),
+      rank: this.rank && this.rank.getValue(),
+      period: this.period && this.period.toJSON(),
       extension: this.extension && this.extension.map((e) => e.toJSON()),
     };
   }
