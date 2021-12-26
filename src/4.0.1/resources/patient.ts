@@ -5,6 +5,7 @@ import { ContactPoint } from "../elements/contactPoint";
 import { Extension } from "../elements/extension";
 import { HumanName } from "../elements/humanName";
 import { Identifier } from "../elements/identifier";
+import { Meta } from "../elements/meta";
 import { PatientCommunication } from "../elements/patientCommunication";
 import { PatientContact } from "../elements/patientContact";
 import { PatientLink } from "../elements/patientLink";
@@ -15,22 +16,19 @@ import { dateTime } from "../types/dateTime";
 
 interface Patient {
   id: string;
+  meta: Meta;
   identifier: Array<Identifier>;
   active: boolean;
   name: Array<HumanName>;
   telecom: Array<ContactPoint>;
   gender: code;
   birthDate: date;
-  deceased: {
-    deceasedBoolean: boolean;
-    deceasedDateTime: dateTime;
-  };
+  deceasedBoolean: boolean;
+  deceasedDateTime: dateTime;
   address: Array<Address>;
   maritalStatus: CodeableConcept;
-  multipleBirth: {
-    multipleBirthBoolean: boolean;
-    multipleBirthInteger: number;
-  };
+  multipleBirthBoolean: boolean;
+  multipleBirthInteger: number;
   photo: Array<Attachment>;
   contact: Array<PatientContact>;
   communication: Array<PatientCommunication>;
@@ -43,21 +41,18 @@ interface Patient {
 class Patient {
   private _data: {
     id: string;
+    meta: Meta;
     active: boolean;
     name: Array<HumanName>;
     telecom: Array<ContactPoint>;
     gender: code;
     birthDate: date;
-    deceased: {
-      deceasedBoolean: boolean;
-      deceasedDateTime: dateTime;
-    };
+    deceasedBoolean: boolean;
+    deceasedDateTime: dateTime;
     address: Array<Address>;
     maritalStatus: CodeableConcept;
-    multipleBirth: {
-      multipleBirthBoolean: boolean;
-      multipleBirthInteger: number;
-    };
+    multipleBirthBoolean: boolean;
+    multipleBirthInteger: number;
     photo: Array<Attachment>;
     contact: Array<PatientContact>;
     commuinication: Array<PatientCommunication>;
@@ -123,15 +118,20 @@ class Patient {
       },
     });
 
-    Object.defineProperty(this, "diseased", {
+    Object.defineProperty(this, "diseasedBoolean", {
       enumerable: true,
-      get: () => this._data.deceased,
-      set: (value: {
-        deceasedBoolean: boolean;
-        deceasedDateTime: dateTime;
-      }) => {
+      get: () => this._data.deceasedBoolean,
+      set: (value: boolean) => {
         if (!value) return;
-        this._data.deceased = value;
+        this._data.deceasedBoolean = value;
+      },
+    });
+
+    Object.defineProperty(this, "deceasedDateTime", {
+      enumerable: true,
+      get: () => this._data.deceasedDateTime,
+      set: (value: dateTime) => {
+        this._data.deceasedDateTime = value;
       },
     });
 
@@ -153,15 +153,21 @@ class Patient {
       },
     });
 
-    Object.defineProperty(this, "multipleBirth", {
+    Object.defineProperty(this, "multipleBirthBoolean", {
       enumerable: true,
-      get: () => this._data.multipleBirth,
-      set: (value: {
-        multipleBirthBoolean: boolean;
-        multipleBirthInteger: number;
-      }) => {
+      get: () => this._data.multipleBirthBoolean,
+      set: (value: boolean) => {
         if (!value) return;
-        this._data.multipleBirth = value;
+        this._data.multipleBirthBoolean = value;
+      },
+    });
+
+    Object.defineProperty(this, "multipleBirthInteger", {
+      enumerable: true,
+      get: () => this._data.multipleBirthInteger,
+      set: (value: number) => {
+        if (!value) return;
+        this._data.multipleBirthInteger = value;
       },
     });
 
@@ -237,25 +243,20 @@ class Patient {
     return {
       resourceType: "Patient",
       id: this.id,
+      meta: this.meta && this.meta.toJSON(),
       identifier: this.identifier && this.identifier.map((i) => i.toJSON()),
       active: this.active,
       name: this.name && this.name.map((n) => n.toJSON()),
       telecom: this.telecom && this.telecom.map((t) => t.toJSON()),
       gender: this.gender && this.gender.getValue(),
       birthdate: this.birthDate && this.birthDate.getValue(),
-      deceased: {
-        deceasedBoolean:
-          this.deceased &&
-          this.deceased.deceasedBoolean &&
-          this.deceased.deceasedBoolean,
-        deceasedDateTime:
-          this.deceased &&
-          this.deceased.deceasedDateTime &&
-          this.deceased.deceasedDateTime.getValue(),
-      },
+      deceasedBoolean: this.deceasedBoolean,
+      deceasedDateTime:
+        this.deceasedDateTime && this.deceasedDateTime.getValue(),
       address: this.address && this.address.map((a) => a.toJSON()),
       maritalStatus: this.maritalStatus && this.maritalStatus.toJSON(),
-      multipleBirth: this.multipleBirth,
+      multipleBirthBoolean: this.multipleBirthBoolean,
+      multipleBirthInteger: this.multipleBirthInteger,
       photo: this.photo && this.photo.map((p) => p.toJSON()),
       contact: this.contact && this.contact.map((c) => c.toJSON()),
       communication: this.communication && this.communication.map((c) => {}),
