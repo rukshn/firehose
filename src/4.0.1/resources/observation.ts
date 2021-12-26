@@ -2,6 +2,7 @@ import { Annotation } from "../elements/annotation";
 import { CodeableConcept } from "../elements/codeableConcept";
 import { Extension } from "../elements/extension";
 import { Identifier } from "../elements/identifier";
+import { Meta } from "../elements/meta";
 import { ObservationComponent } from "../elements/observationComponent";
 import { ObservationReferenceRange } from "../elements/observationReferenceRange";
 import { Period } from "../elements/period";
@@ -18,6 +19,7 @@ import { time } from "../types/time";
 
 interface Observation {
   id: string;
+  meta: Meta;
   identifier: Array<Identifier>;
   basedOn: Array<Reference>;
   partOf: Array<Reference>;
@@ -59,6 +61,7 @@ interface Observation {
 class Observation {
   private _data: {
     id: string;
+    meta: Meta;
     identifier: Array<Identifier>;
     basedOn: Array<Reference>;
     partOf: Array<Reference>;
@@ -105,6 +108,15 @@ class Observation {
       set: (value: string) => {
         if (!value) return;
         this._data.id = value;
+      },
+    });
+
+    Object.defineProperty(this, "meta", {
+      enumerable: true,
+      get: () => this._data.meta,
+      set: (value: Meta) => {
+        if (!value) return;
+        this._data.meta = value;
       },
     });
 
@@ -439,6 +451,7 @@ class Observation {
     return {
       resourceType: this.getResourceType(),
       id: this.id,
+      meta: this.meta && this.meta.toJSON(),
       identifier: this.identifier && this.identifier.map((i) => i.toJSON()),
       basedOn: this.basedOn && this.basedOn.map((b) => b.toJSON()),
       partOf: this.partOf && this.partOf.map((p) => p.toJSON()),
