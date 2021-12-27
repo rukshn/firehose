@@ -1,5 +1,5 @@
 /*****
- *  This represents the ValueSet resource of FHIR 4.0.1
+ *  This class represents the ValueSet resource of FHIR 4.0.1
  *  http://hl7.org/fhir/R4/valueset.html
  */
 

@@ -1,3 +1,9 @@
+/**
+ * This class represents the Observation resource of the GHIR 4.0.1
+ * http://hl7.org/fhir/r4/observation.html
+ */
+
+// include dependancy classes
 import { Annotation } from "../elements/annotation";
 import { CodeableConcept } from "../elements/codeableConcept";
 import { Extension } from "../elements/extension";
@@ -17,6 +23,7 @@ import { dateTime } from "../types/dateTime";
 import { instant } from "../types/instant";
 import { time } from "../types/time";
 
+//create interface
 interface Observation {
   id: string;
   meta: Meta;
@@ -59,6 +66,7 @@ interface Observation {
 }
 
 class Observation {
+  //private variable to store and manupulate interface params
   private _data: {
     id: string;
     meta: Meta;
@@ -99,9 +107,13 @@ class Observation {
     component: Array<ObservationComponent>;
     extension: Array<Extension>;
   };
+
+  // constructor accpeting optional parameters, these should match the ones in the interface
   constructor(options?) {
+    // set this to blank and set parameters if passed to creator
     Object.defineProperty(this, "_data", { value: { ...options } });
 
+    // set getters and setter for the interface parameters
     Object.defineProperty(this, "id", {
       enumerable: true,
       get: () => this._data.id,
@@ -443,10 +455,12 @@ class Observation {
     });
   }
 
+  // return resource type
   getResourceType(): string {
     return "Observation";
   }
 
+  // return the data as a JSON fhir resouce
   toJSON(): object {
     return {
       resourceType: this.getResourceType(),
@@ -495,4 +509,5 @@ class Observation {
   }
 }
 
+// export class
 export { Observation };
