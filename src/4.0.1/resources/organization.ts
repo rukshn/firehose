@@ -165,6 +165,7 @@ class Organization {
 
   toJSON(): object {
     return {
+      resourceType: this.getResourceType(),
       id: this.id,
       meta: this.meta && this.meta.toJSON(),
       identifier: this.identifier && this.identifier.map((i) => i.toJSON()),
