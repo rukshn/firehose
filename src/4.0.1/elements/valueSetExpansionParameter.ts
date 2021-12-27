@@ -151,3 +151,5 @@ class ValueSetExpansionParameter {
     };
   }
 }
+
+export { ValueSetExpansionParameter };
