@@ -11,7 +11,7 @@ class unsignedInt {
     return this.integer;
   }
 
-  getJSON(): object {
+  toJSON(): object {
     return {
       unsignedInt: this.integer,
     };
