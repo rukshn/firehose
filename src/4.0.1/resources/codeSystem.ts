@@ -6,7 +6,7 @@ import { ContactDetail } from "../elements/contactDetail";
 import { Extension } from "../elements/extension";
 import { Identifier } from "../elements/identifier";
 import { Meta } from "../elements/meta";
-import { Narrative } from "../elements/narrarative";
+import { Narrative } from "../elements/narrative";
 import { UseageContext } from "../elements/useageContext";
 import { code } from "../types/code";
 import { dateTime } from "../types/dateTime";
