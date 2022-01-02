@@ -6,6 +6,7 @@ import { ContactDetail } from "../elements/contactDetail";
 import { Extension } from "../elements/extension";
 import { Identifier } from "../elements/identifier";
 import { Meta } from "../elements/meta";
+import { Narrative } from "../elements/narrative";
 import { UseageContext } from "../elements/useageContext";
 import { code } from "../types/code";
 import { dateTime } from "../types/dateTime";
@@ -14,6 +15,7 @@ import { ValueSet } from "./valueSet";
 
 interface CodeSystem {
   id: string;
+  text: Narrative;
   meta: Meta;
   url: URL;
   identifier: Array<Identifier>;
@@ -48,6 +50,7 @@ class CodeSystem {
   private _data: {
     id: string;
     meta: Meta;
+    text: Narrative;
     url: URL;
     identifier: Array<Identifier>;
     version: string;
@@ -94,6 +97,15 @@ class CodeSystem {
       set: (value: Meta) => {
         if (!value) return;
         this._data.meta = value;
+      },
+    });
+
+    Object.defineProperty(this, "text", {
+      enumerable: true,
+      get: () => this._data.text,
+      set: (value: Narrative) => {
+        if (!value) return;
+        this._data.text = value;
       },
     });
 
