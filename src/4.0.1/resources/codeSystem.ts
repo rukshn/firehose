@@ -6,6 +6,7 @@ import { ContactDetail } from "../elements/contactDetail";
 import { Extension } from "../elements/extension";
 import { Identifier } from "../elements/identifier";
 import { Meta } from "../elements/meta";
+import { Narrative } from "../elements/narrarative";
 import { UseageContext } from "../elements/useageContext";
 import { code } from "../types/code";
 import { dateTime } from "../types/dateTime";
@@ -15,6 +16,7 @@ import { ValueSet } from "./valueSet";
 interface CodeSystem {
   id: string;
   meta: Meta;
+  text: Narrative;
   url: URL;
   identifier: Array<Identifier>;
   version: string;
@@ -42,12 +44,14 @@ interface CodeSystem {
   property: Array<CodeSystemProperty>;
   concept: Array<CodeSystemConcept>;
   extension: Array<Extension>;
+  modifierExtension: Array<Extension>;
 }
 
 class CodeSystem {
   private _data: {
     id: string;
     meta: Meta;
+    text: Narrative;
     url: URL;
     identifier: Array<Identifier>;
     version: string;
@@ -75,6 +79,7 @@ class CodeSystem {
     property: Array<CodeSystemProperty>;
     concept: Array<CodeSystemConcept>;
     extension: Array<Extension>;
+    modifierExtension: Array<Extension>;
   };
   constructor(options?) {
     Object.defineProperty(this, "_data", { value: { ...options } });
@@ -94,6 +99,15 @@ class CodeSystem {
       set: (value: Meta) => {
         if (!value) return;
         this._data.meta = value;
+      },
+    });
+
+    Object.defineProperty(this, "text", {
+      enumerable: true,
+      get: () => this._data.text,
+      set: (value: Narrative) => {
+        if (!value) return;
+        this._data.text = value;
       },
     });
 
@@ -339,6 +353,15 @@ class CodeSystem {
         this._data.extension = value;
       },
     });
+
+    Object.defineProperty(this, "modifierExtension", {
+      enumerable: true,
+      get: () => this._data.modifierExtension,
+      set: (value: Array<Extension>) => {
+        if (!value) return;
+        this._data.modifierExtension = value;
+      },
+    });
   }
 
   getResourceType(): string {
@@ -350,6 +373,7 @@ class CodeSystem {
       resourceType: this.getResourceType(),
       id: this.id,
       meta: this.meta && this.meta.toJSON(),
+      text: this.text && this.text.toJSON(),
       url: this.url && this.url.href,
       identifier: this.identifier && this.identifier.map((i) => i.toJSON()),
       version: this.version,
@@ -379,6 +403,8 @@ class CodeSystem {
       property: this.property && this.property.map((p) => p.toJSON()),
       concept: this.concept && this.concept.map((c) => c.toJSON()),
       extension: this.extension && this.extension.map((e) => e.toJSON()),
+      modifierExtension:
+        this.modifierExtension && this.modifierExtension.map((m) => m.toJSON()),
     };
   }
 }
