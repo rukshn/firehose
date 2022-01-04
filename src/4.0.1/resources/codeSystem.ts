@@ -17,7 +17,7 @@ interface CodeSystem {
   id: string;
   text: Narrative;
   meta: Meta;
-  url: URL;
+  url: string;
   identifier: Array<Identifier>;
   version: string;
   name: string;
@@ -51,7 +51,7 @@ class CodeSystem {
     id: string;
     meta: Meta;
     text: Narrative;
-    url: URL;
+    url: string;
     identifier: Array<Identifier>;
     version: string;
     name: string;
@@ -112,7 +112,7 @@ class CodeSystem {
     Object.defineProperty(this, "url", {
       enumerable: true,
       get: () => true,
-      set: (value: URL) => {
+      set: (value: string) => {
         if (!value) return;
         this._data.url = value;
       },
@@ -362,7 +362,7 @@ class CodeSystem {
       resourceType: this.getResourceType(),
       id: this.id,
       meta: this.meta && this.meta.toJSON(),
-      url: this.url && this.url.href,
+      url: this.url,
       identifier: this.identifier && this.identifier.map((i) => i.toJSON()),
       version: this.version,
       name: this.name,
