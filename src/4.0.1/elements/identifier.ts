@@ -1,157 +1,203 @@
+/**
+ * This class represents the idenfier element of FHIR
+ * All modificatins of Idenfitier element will happen in this class
+ */
 import { code } from "../types/code";
 import { CodeableConcept } from "./codeableConcept";
 import { Extension } from "./extension";
 import { Period } from "./period";
 import { Reference } from "./reference";
 
+// Define interface
 interface Identifier {
   id: string;
   use: code;
   type: CodeableConcept;
-  system: URL;
+  system: string;
   value: string;
   period: Period;
   assigner: Reference;
   extension: Array<Extension>;
 }
 
+// Define class
 class Identifier {
-  private _data: {
-    id: string;
-    use: string;
-    _use: code;
-    type: object;
-    _type: CodeableConcept;
-    system: string;
-    _system: URL;
-    value: string;
-    period: object;
-    _period: Period;
-    assigner: object;
-    _assigner: Reference;
-    extension: Array<Extension>;
+  private _map: Map<string, any>;
+  private _keys: object = {
+    id: "string",
+    use: "string",
+    type: "object",
+    system: "string",
+    value: "string",
+    period: "object",
+    assigner: "object",
+    extension: "object",
   };
+
+  // Construct class
   constructor(options?) {
-    Object.defineProperty(this, "_data", {
+    Object.defineProperty(this, "_map", {
       value: {},
+      writable: true,
     });
+    // Convert the passed parameter object in to a map
+    // the parameter will accept an onject of an identifier
+    if (options) {
+      this._map = new Map(Object.entries(options));
+    } else {
+      this._map = new Map();
+    }
+
+    // Conver the _key to map
+    // To type check the incoming elements as a parameter
+    const keyGuard = new Map(Object.entries(this._keys));
+
+    this._map.forEach((value: any, key: string) => {
+      if (typeof value !== keyGuard.get(key)) {
+        this._map.delete(key);
+      }
+    });
+
+    // Set gettrs and setters
 
     Object.defineProperty(this, "id", {
       enumerable: true,
-      get: () => this._data.id,
+      get: () => this._map.get("id"),
       set: (value: string) => {
         if (!value) return;
-        this._data.id = value;
+        this._map.set("id", value);
       },
     });
 
     Object.defineProperty(this, "use", {
       enumerable: true,
-      get: () => this._data.use,
+      get: () => this._map.get("use"),
       set: (value: code) => {
         if (!value) return;
-        this._data.use = value.getValue();
+        this._map.set("use", value.getValue());
+        this._map.set("_use", value);
       },
     });
 
     Object.defineProperty(this, "_use", {
       enumerable: true,
-      get: () => this._data._use,
-      set: (value: code) => {
-        if (!value) return;
-        this._data._use = value;
-      },
+      get: () => this._map.get("_use"),
     });
 
     Object.defineProperty(this, "type", {
       enumerable: true,
-      get: () => this._data.type,
+      get: () => this._map.get("type"),
       set: (value: CodeableConcept) => {
         if (!value) return;
-        this._data.type = value.toJSON();
+        this._map.set("type", value.toJSON());
+        this._map.set("_type", value);
       },
     });
 
     Object.defineProperty(this, "_type", {
       enumerable: true,
-      get: () => this._data._type,
-      set: (value: CodeableConcept) => {
-        if (!value) return;
-        this._data._type = value;
-      },
+      get: () => this._map.get("_type"),
     });
+
+    if (this._map.has("type")) {
+      let tempType = new CodeableConcept(this._map.get("type"));
+      this._map.set("type", tempType.toJSON());
+      this._map.set("_type", tempType);
+    }
 
     Object.defineProperty(this, "system", {
       enumerable: true,
-      get: () => this._data.system,
-      set: (value: URL) => {
+      get: () => this._map.get("system"),
+      set: (value: string) => {
         if (!value) return;
-        this._data.system = value.href;
-      },
-    });
-
-    Object.defineProperty(this, "_system", {
-      enumerable: true,
-      get: () => this._data._system,
-      set: (value: URL) => {
-        if (!value) return;
-        this._data._system = value;
+        this._map.set("system", value);
       },
     });
 
     Object.defineProperty(this, "value", {
       enumerable: true,
-      get: () => this._data.value,
+      get: () => this._map.get("value"),
       set: (value: string) => {
         if (!value) return;
-        this._data.value = value;
+        this._map.set("value", value);
       },
     });
 
     Object.defineProperty(this, "period", {
       enumerable: true,
-      get: () => this._data.period,
+      get: () => this._map.get("period"),
       set: (value: Period) => {
         if (!value) return;
-        this._data.period = value.toJSON();
+        this._map.set("period", value.toJSON());
+        this._map.set("_period", value);
       },
     });
 
     Object.defineProperty(this, "_period", {
       enumerable: true,
-      get: () => this._data._period,
-      set: (value: Period) => {
-        if (!value) return;
-        this._data._period = value;
-      },
+      get: () => this._map.get("_period"),
     });
+
+    if (this._map.has("period")) {
+      let tempPeriod = new Period(this._map.get("period"));
+      this._map.set("period", tempPeriod.toJSON());
+      this._map.set("_period", tempPeriod);
+    }
 
     Object.defineProperty(this, "assigner", {
       enumerable: true,
-      get: () => this._data.assigner,
+      get: () => this._map.get("assigner"),
       set: (value: Reference) => {
         if (!value) return;
-        this._data.assigner = value.toJSON();
+        this._map.set("assigner", value.toJSON());
+        this._map.set("_assigner", value);
       },
     });
 
     Object.defineProperty(this, "_assigner", {
       enumerable: true,
-      get: () => this._data._assigner,
-      set: (value: Reference) => {
-        this._data._assigner = value;
-      },
+      get: () => this._map.get("_assigner"),
     });
+
+    if (this._map.has("assigner")) {
+      let tempRef = new Reference(this._map.get("assigner"));
+      this._map.set("assigner", tempRef.toJSON());
+      this._map.set("_assigner", tempRef);
+    }
 
     Object.defineProperty(this, "extension", {
-      get: () => this._data.extension,
+      get: () => this._map.get("extension"),
       set: (value: Array<Extension>) => {
         if (!value) return;
-        this._data.extension = value;
+        this._map.set("_extension", value);
+        this._map.set(
+          "extension",
+          value.map((v) => v.toJSON())
+        );
       },
     });
 
-    Object.assign(this, options);
+    Object.defineProperty(this, "_extension", {
+      enumerable: true,
+      get: () => this._map.get("_extension"),
+    });
+
+    if (this._map.has("extension")) {
+      if (!Array.isArray(this._map.get("extension")))
+        this._map.set("extension", [this._map.get("extension")]);
+      let contact = this._map.get("extension") as Array<object>;
+      let array: Array<Extension>;
+      let jsonArray: Array<object> = [];
+
+      contact.map((i) => {
+        let temp = new Extension(i);
+        array.push(temp);
+        jsonArray.push(temp.toJSON());
+      });
+
+      this._map.set("_extension", array);
+      this._map.set("extension", jsonArray);
+    }
   }
 
   getResourceType(): string {
@@ -159,22 +205,25 @@ class Identifier {
   }
 
   toJSON(): object {
-    return {
-      id: this._data.id,
-      use: this._data.use,
-      _use: this._data._use,
-      type: this._data.type,
-      _type: this._data._type,
-      system: this._data.system,
-      _system: this._data._system,
-      value: this._data.value,
-      period: this._data.period,
-      _period: this._data._period,
-      assigner: this._data.assigner,
-      _assigner: this._data._assigner,
-      extension:
-        this._data.extension && this._data.extension.map((e) => e.toJSON()),
+    // The wrapper is set to prettify the output as described in FHIR documentation
+    // Even without the wrapper it will return a valid FHIE element
+    let wrapper = {
+      id: undefined,
+      use: undefined,
+      _use: undefined,
+      type: undefined,
+      _type: undefined,
+      system: undefined,
+      value: undefined,
+      period: undefined,
+      _period: undefined,
+      assigner: undefined,
+      _assigner: undefined,
+      extension: undefined,
+      _extension: undefined,
     };
+
+    return Object.assign({}, wrapper, Object.fromEntries(this._map));
   }
 }
 
