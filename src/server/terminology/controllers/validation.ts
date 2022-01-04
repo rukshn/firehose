@@ -35,7 +35,6 @@ const validateResourceType = (
     exceptionIssue.details = exceptionDetails;
 
     exception.issue = [exceptionIssue];
-    exception.text = text;
     return exception.toJSON();
   }
 };
