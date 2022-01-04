@@ -1,0 +1,135 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model CodeSystem {
+  // Domain resource content
+  localId           BigInt    @id @default(autoincrement())
+  id                String    @unique @default(uuid())
+  extension         Json?
+  modifierExtension Json?
+  meta              Json?
+  language          String?
+  implicitRules     String?
+  text              Json?
+  // CodeSystem content
+  url               String?
+  identifier        Json?
+  version           String?
+  name              String?
+  title             String?
+  status            String?
+  experimental      Boolean?
+  date              DateTime?
+  publisher         String?
+  contact           Json?
+  description       String?
+  useContext        Json?
+  jurisdiction      Json?
+  purpose           String?
+  copyright         String?
+  caseSensitive     Boolean?
+  valueSet          ValueSet? @relation(fields: [valueSetId], references: [localId])
+
+  hierarchyMeaning String?
+  compositional    Boolean?
+  versionNeeded    Boolean?
+  content          String?
+  supplements      String?
+
+  filter   Json?
+  property Json?
+
+  concept    Concept[]
+  valueSetId BigInt?
+}
+
+model Concept {
+  localId   BigInt @id @default(autoincrement())
+  extension Json?
+
+  code       String
+  display    String?
+  definition String?
+
+  designation Json?
+  property    Json?
+
+  status          String?
+  retirementDate  DateTime?
+  deprecationDate DateTime?
+  notSelectable   Boolean?
+
+  CodeSystem   CodeSystem? @relation(fields: [codeSystemId], references: [localId])
+  codeSystemId BigInt?
+  concept      Concept[]   @relation("ConceptToConcept")
+  Concept      Concept?    @relation("ConceptToConcept", fields: [conceptId], references: [localId])
+  conceptId    BigInt?
+}
+
+model ValueSet {
+  // Domain resource contnet
+  localId           BigInt  @id @default(autoincrement())
+  id                String  @unique @default(uuid())
+  extension         Json?
+  modifierExtension Json?
+  meta              Json?
+  language          String?
+  implicieRules     String?
+  text              Json?
+
+  // ValueSet content
+  url               String?
+  identifier        Json?
+  versoin           String?
+  name              String?
+  title             String?
+  status            String
+  experimental      Boolean?
+  date              DateTime?
+  publisher         String?
+  contact           Json?
+  description       String?
+  useContext        Json?
+  jurisdiction      Json?
+  immutable         Boolean?
+  purpose           String?
+  copyright         String?
+  composeLockedDate DateTime?
+  composeInactive   Boolean?
+  composeInclude    ValueSetInclude[]
+  CodeSystem        CodeSystem[]
+}
+
+model ValueSetInclude {
+  id        BigInt @id @default(autoincrement())
+  extension Json?
+
+  system  String?
+  version String?
+  concept ValueSetConcept[]
+
+  filter    Json?
+  valueSet  ValueSet[]
+  isExluded Boolean?
+}
+
+model ValueSetConcept {
+  id        BigInt @id @default(autoincrement())
+  extension Json?
+
+  display     String?
+  code        String?
+  designation Json?
+
+  ValueSetInclude   ValueSetInclude? @relation(fields: [valueSetIncludeId], references: [id])
+  valueSetIncludeId BigInt?
+}
